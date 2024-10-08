@@ -1,7 +1,7 @@
 Estos son los 6 elementos que hay que entregar: 
-- Manipulación y preparación de datos : Realizar tareas de manipulación y preparación de datos utilizando herramientas y bibliotecas específicas (realizado).
-- Exploración y preprocesamiento de datos: Explorar y preprocesar los datos para identificar patrones, tendencias y relaciones significativas.
+- Manipulación y preparación de datos : Realizar tareas de manipulación y preparación de datos utilizando herramientas y bibliotecas específicas (completo).
+- Exploración y preprocesamiento de datos: Explorar y preprocesar los datos para identificar patrones, tendencias y relaciones significativas (completo).
 - Versionado de datos: Aplicar técnicas de versionado de datos para asegurar reproducibilidad y trazabilidad.
-- Construcción, ajuste y evaluación de Modelos de Machine Learning: Construir, ajustar y evaluar modelos de Machine Learning utilizando técnicas y algoritmos apropiados.
+- Construcción, ajuste y evaluación de Modelos de Machine Learning: Construir, ajustar y evaluar modelos de Machine Learning utilizando técnicas y algoritmos apropiados ().
 - Aplicación de Mejores Prácticas en el Pipeline de Modelado: Aplicar mejores prácticas en cada etapa del pipeline de modelado.
 - Estructuración y Refactorización del Código: Estructurar modelos de Machine Learning de manera organizada y aplicar principios de programación orientada a objetos.
