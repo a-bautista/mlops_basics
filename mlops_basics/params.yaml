@@ -1,0 +1,14 @@
+base:
+  random_stage: 42
+
+data:
+#loading data
+  dataset_id: 891  # ID del dataset en el repositorio UCI
+  save_processed_data: true  # Indica si deseas guardar los datos procesados
+  processed_data_path: data/processed/cdc_diabetes_health_indicators.csv  # Ruta para guardar los datos procesados
+
+train: 
+#training, hyperparams
+
+reports: 
+#metrics, images, etc

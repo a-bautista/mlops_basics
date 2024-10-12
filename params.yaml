@@ -1,0 +1,12 @@
+base:
+  random_stage: 42
+
+data:
+#loading data
+  cdc_diabetes_health_indicators : fetch_ucirepo(id=891)
+
+train: 
+#training, hyperparams
+
+reports: 
+#metrics, images, etc
