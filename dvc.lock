@@ -1,0 +1,158 @@
+schema: '2.0'
+stages:
+  data_load:
+    cmd: python src/stages/data_load.py --config=params.yaml
+    deps:
+    - path: src/stages/data_load.py
+      hash: md5
+      md5: f36b3b5ee7cff080edc1b9510ba0336e
+      size: 1041
+    params:
+      params.yaml:
+        base:
+          random_state: 42
+          log_level: INFO
+        data:
+          dataset_csv: data/raw/diabetes.csv
+    outs:
+    - path: data/raw/diabetes.csv
+      hash: md5
+      md5: 6704502009df9ce45a3084acb4e101cd
+      size: 11829915
+  featurize:
+    cmd: python src/stages/featurize.py --config=params.yaml
+    deps:
+    - path: data/raw/diabetes.csv
+      hash: md5
+      md5: 6704502009df9ce45a3084acb4e101cd
+      size: 11829915
+    - path: src/stages/featurize.py
+      hash: md5
+      md5: 75c669c0187d2f3825bff2ba9ee17089
+      size: 3248
+    params:
+      params.yaml:
+        base:
+          random_state: 42
+          log_level: INFO
+        data:
+          dataset_csv: data/raw/diabetes.csv
+        featurize:
+          features_path: data/processed/featured_diabetes.csv
+          target_column: Diabetes_binary
+    outs:
+    - path: data/processed/featured_diabetes.csv
+      hash: md5
+      md5: 930e5723ca8102d165d0bb22ff0ee42c
+      size: 32201928
+  data_split:
+    cmd: python src/stages/data_split.py --config=params.yaml
+    deps:
+    - path: data/processed/featured_diabetes.csv
+      hash: md5
+      md5: 930e5723ca8102d165d0bb22ff0ee42c
+      size: 32201928
+    - path: src/stages/data_split.py
+      hash: md5
+      md5: 89e640c427fb2be5f17d52ac0e6b55d7
+      size: 1554
+    params:
+      params.yaml:
+        base:
+          random_state: 42
+          log_level: INFO
+        data_split:
+          test_size: 0.8
+          trainset_path: data/processed/train_diabetes.csv
+          train_target: data/processed/train_target_diabetes.csv
+          testset_path: data/processed/test_diabetes.csv
+          test_target: data/processed/test_target_diabetes.csv
+        featurize:
+          features_path: data/processed/featured_diabetes.csv
+          target_column: Diabetes_binary
+    outs:
+    - path: data/processed/test_diabetes.csv
+      hash: md5
+      md5: c953a91a691f6a8365209c6c6148575c
+      size: 25180552
+    - path: data/processed/test_target_diabetes.csv
+      hash: md5
+      md5: 53c74a37f8473ae837c0ae3e32c78395
+      size: 608849
+    - path: data/processed/train_diabetes.csv
+      hash: md5
+      md5: 4299b06246b8eecdfcb7a94a27e6ee05
+      size: 6295037
+    - path: data/processed/train_target_diabetes.csv
+      hash: md5
+      md5: af793f62b2b1b0391d220a4611378b15
+      size: 152225
+  train:
+    cmd: python src/stages/train.py --config=params.yaml
+    deps:
+    - path: data/processed/train_diabetes.csv
+      hash: md5
+      md5: 4299b06246b8eecdfcb7a94a27e6ee05
+      size: 6295037
+    - path: data/processed/train_target_diabetes.csv
+      hash: md5
+      md5: af793f62b2b1b0391d220a4611378b15
+      size: 152225
+    - path: src/stages/train.py
+      hash: md5
+      md5: cd1fad7c8039eddfe0df2f0861488660
+      size: 928
+    params:
+      params.yaml:
+        base:
+          random_state: 42
+          log_level: INFO
+        data_split.train_target: data/processed/train_target_diabetes.csv
+        data_split.trainset_path: data/processed/train_diabetes.csv
+        train:
+          logistic_regression:
+            max_iter: 1000
+          random_forest:
+            n_estimators: 100
+            max_depth: 10
+          model_path: models/model.joblib
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 154a5bb7aebb6c315cfb07ef4726e2b0
+      size: 1599
+  evaluate:
+    cmd: python src/stages/evaluate.py --config=params.yaml
+    deps:
+    - path: data/processed/test_diabetes.csv
+      hash: md5
+      md5: c953a91a691f6a8365209c6c6148575c
+      size: 25180552
+    - path: data/processed/test_target_diabetes.csv
+      hash: md5
+      md5: 53c74a37f8473ae837c0ae3e32c78395
+      size: 608849
+    - path: models/model.joblib
+      hash: md5
+      md5: 154a5bb7aebb6c315cfb07ef4726e2b0
+      size: 1599
+    - path: src/stages/evaluate.py
+      hash: md5
+      md5: 566eca1a5d1fd3923080404afe36581d
+      size: 1701
+    params:
+      params.yaml:
+        base:
+          random_state: 42
+          log_level: INFO
+        data_split.test_target: data/processed/test_target_diabetes.csv
+        data_split.testset_path: data/processed/test_diabetes.csv
+        evaluate:
+          reports_dir: reports
+          metrics_file: metrics.json
+          confusion_matrix_image: confusion_matrix.png
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: 950d2ab5266ebacc405e6d23300164ed
+      size: 32
