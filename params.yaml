@@ -10,7 +10,7 @@ featurize:
   target_column: Diabetes_binary
 
 data_split:
-  test_size: 0.2
+  test_size: 0.8
   trainset_path: 'data/processed/train_diabetes.csv'
   train_target: 'data/processed/train_target_diabetes.csv'
   testset_path: 'data/processed/test_diabetes.csv'
