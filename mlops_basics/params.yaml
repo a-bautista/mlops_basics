@@ -15,18 +15,3 @@ train_size: 0.8
 reports: 
 #metrics, images, etc
 
-
-  metrics:
-    - accuracy
-    - recall
-    - gmean
-    - precision
-    - f1_score
-    - confusion_matrix
-  save_reports: true  # Indica si deseas guardar los reportes generados
-  report_path: reports/  # Directorio donde se guardarán los reportes
-  save_format: ['csv', 'png']  # Formatos en los que deseas guardar los reportes (opcional)
-  confusion_matrix:
-    display_labels: ['True Negatives', 'False Positives', 'False Negatives', 'True Positives']
-    colormap: 'Spectral'
-    figsize: [6, 4]
