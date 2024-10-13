@@ -1,5 +1,5 @@
 base:
-  random_stage: 42
+  random_stage: 10
 
 data:
   #loading data
@@ -9,6 +9,7 @@ data:
 
 train: 
   #training, hyperparams
+  train_size: 0.8 
 
 reports: 
   #metrics, images, etc
