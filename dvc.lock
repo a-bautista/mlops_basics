@@ -112,7 +112,7 @@ stages:
         train:
           logistic_regression:
             max_iter: 2000
-            C: 0.1
+            C: 0.001
           random_forest:
             n_estimators: 100
             max_depth: 10
@@ -120,7 +120,7 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: 0b6e65afa5add92c25c21390768ab6ba
+      md5: b422d37890762f8a05e97727e8997dbf
       size: 1599
   evaluate:
     cmd: python src/stages/evaluate.py --config=params.yaml
@@ -135,12 +135,12 @@ stages:
       size: 608849
     - path: models/model.joblib
       hash: md5
-      md5: 0b6e65afa5add92c25c21390768ab6ba
+      md5: b422d37890762f8a05e97727e8997dbf
       size: 1599
     - path: src/stages/evaluate.py
       hash: md5
-      md5: 566eca1a5d1fd3923080404afe36581d
-      size: 1701
+      md5: 85c4a5d7822388c2cb1f9afe3091f9b2
+      size: 2837
     params:
       params.yaml:
         base:
@@ -152,8 +152,9 @@ stages:
           reports_dir: reports
           metrics_file: metrics.json
           confusion_matrix_image: confusion_matrix.png
+          confusion_matrix_data: confusion_matrix_data.csv
     outs:
     - path: reports/metrics.json
       hash: md5
-      md5: 3df39c6a9df390fe68d52322cf48e6b7
+      md5: 038dd99b1e3c19a0718eb04fb0e35612
       size: 32
