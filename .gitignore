@@ -140,6 +140,7 @@ ENV/
 env.bak/
 venv.bak/
 virtual_environment_mlops/
+local_storage/
 
 # Spyder project settings
 .spyderproject
