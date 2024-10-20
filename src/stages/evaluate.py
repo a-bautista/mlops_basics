@@ -9,6 +9,11 @@ from typing import Text, Dict
 import yaml
 
 
+def write_confusion_matrix_data(y_true, predicted, filename):
+    assert len(predicted) == len(y_true)
+    cf = pd.DataFrame(list(zip(y_true, predicted)), columns=["y_true", "predicted"])
+    cf.to_csv(filename, index=False)
+
 def evaluate_model(config_path: Text) -> None:
 
     with open(config_path) as conf_file:
@@ -25,6 +30,9 @@ def evaluate_model(config_path: Text) -> None:
     print('Log: Evaluate (build report)')
     prediction = model.predict(X_test)
     f1 = f1_score(y_true=y_test, y_pred=prediction, average='macro')
+
+    labels = load_iris(as_frame=True).target_names.tolist()
+
     cm = confusion_matrix(prediction, y_test)
     report = {
         'f1': f1,
@@ -34,7 +42,7 @@ def evaluate_model(config_path: Text) -> None:
     }
 
     print('Log: Save metrics')
-    # save f1 metrics file
+    # Guardar archivo con métrica f1
     reports_folder = Path(config['evaluate']['reports_dir'])
     metrics_path = reports_folder / config['evaluate']['metrics_file']
 
@@ -42,6 +50,15 @@ def evaluate_model(config_path: Text) -> None:
         obj={'f1_score': report['f1']},
         fp=open(metrics_path, 'w')
     )
+
+    # Asegúrate de que y_test sea un arreglo de 0 y 1
+    # Si y_test es un DataFrame, extraer la columna como un arreglo
+    if isinstance(y_test, pd.DataFrame):
+        y_test = y_test.values.flatten()  # Aplana a un arreglo unidimensional
+
+    # Guardar archivo con datos CSV para los plots de dvc
+    confusion_matrix_data_path = reports_folder / config['evaluate']['confusion_matrix_data']
+    write_confusion_matrix_data(y_test, prediction, filename=confusion_matrix_data_path)
 
     print(f'F1 metrics file saved to : {metrics_path}')
 
