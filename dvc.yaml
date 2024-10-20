@@ -62,5 +62,12 @@ stages:
     - data_split.testset_path
     - data_split.test_target
     - evaluate
-    outs:
-    - reports/metrics.json
+    plots:
+    - reports/confusion_matrix_data.csv:
+        template: confusion
+        x: predicted
+        y: y_true
+        cache: false
+    metrics:
+    - reports/metrics.json:
+        cache: false
