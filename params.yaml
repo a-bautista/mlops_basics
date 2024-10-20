@@ -20,7 +20,7 @@ data_split:
 train:
   logistic_regression:
     max_iter: 2000
-    C: 0.001    
+    C: 0.1    
   random_forest:
     n_estimators: 100
     max_depth: 10

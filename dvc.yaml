@@ -67,6 +67,7 @@ stages:
         template: confusion
         x: predicted
         y: y_true
+        cache: false
     metrics:
     - reports/metrics.json:
         cache: false
