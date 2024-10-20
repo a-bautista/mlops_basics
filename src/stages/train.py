@@ -14,9 +14,11 @@ def train_model(config_path: Text) -> None:
     X_train = pd.read_csv(config['data_split']['trainset_path'])
     y_train = pd.read_csv(config['data_split']['train_target'])
 
+    # Obtener todos los parámetros para LogisticRegression desde el archivo params.yaml
+    logistic_regression_params = config['train']['logistic_regression']
 
     print('Log: Train model')
-    model = LogisticRegression(max_iter=1000)
+    model = LogisticRegression(**logistic_regression_params)
     model.fit(X_train, y_train.values.ravel())
 
     print('Log: Save model')

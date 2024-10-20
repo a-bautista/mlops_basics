@@ -100,8 +100,8 @@ stages:
       size: 152225
     - path: src/stages/train.py
       hash: md5
-      md5: cd1fad7c8039eddfe0df2f0861488660
-      size: 928
+      md5: 9f916733e5e3eec3132bf32e5d58c72d
+      size: 1106
     params:
       params.yaml:
         base:
@@ -111,7 +111,8 @@ stages:
         data_split.trainset_path: data/processed/train_diabetes.csv
         train:
           logistic_regression:
-            max_iter: 1000
+            max_iter: 2000
+            C: 0.1
           random_forest:
             n_estimators: 100
             max_depth: 10
@@ -119,7 +120,7 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: 154a5bb7aebb6c315cfb07ef4726e2b0
+      md5: 0b6e65afa5add92c25c21390768ab6ba
       size: 1599
   evaluate:
     cmd: python src/stages/evaluate.py --config=params.yaml
@@ -134,7 +135,7 @@ stages:
       size: 608849
     - path: models/model.joblib
       hash: md5
-      md5: 154a5bb7aebb6c315cfb07ef4726e2b0
+      md5: 0b6e65afa5add92c25c21390768ab6ba
       size: 1599
     - path: src/stages/evaluate.py
       hash: md5
@@ -154,5 +155,5 @@ stages:
     outs:
     - path: reports/metrics.json
       hash: md5
-      md5: 950d2ab5266ebacc405e6d23300164ed
+      md5: 3df39c6a9df390fe68d52322cf48e6b7
       size: 32
