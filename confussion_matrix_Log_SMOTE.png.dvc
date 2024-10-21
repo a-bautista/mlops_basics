@@ -1,0 +1,5 @@
+outs:
+- md5: e8e9938327caabf22827258d678a94d9
+  size: 24747
+  hash: md5
+  path: confussion_matrix_Log_SMOTE.png

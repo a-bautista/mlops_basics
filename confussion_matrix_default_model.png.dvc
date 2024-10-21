@@ -1,0 +1,5 @@
+outs:
+- md5: 3581f5f17fb1bc8b6289d05e64126dce
+  size: 24747
+  hash: md5
+  path: confussion_matrix_default_model.png
