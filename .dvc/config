@@ -1,4 +1,6 @@
 [core]
-    remote = local_remote
+    remote = myremote
 ['remote "local_remote"']
     url = C:/Users/luisa/dvc_storage
+['remote "myremote"']
+    url = s3://tecmlopsteam5
