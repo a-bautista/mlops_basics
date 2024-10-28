@@ -12,9 +12,16 @@ from sklearn.pipeline import make_pipeline
 import mlflow
 
 class process_model:
-    def __init__(self, X, y):
-        self.X = X
-        self.y = y
+    def __init__(self, X_train, y_train, X_val, y_val):
+        self.X_train = X_train
+        self.y_train = y_train
+        self.X_val = X_val
+        self.y_val = y_val
+
+    def evaluate_models(self, df):
+        # Crear una instancia de list_models y ejecutar la creación de modelos
+        models_evaluator = self.list_models(self.X_train, self.y_train, self.X_val, self.y_val, df)
+        return models_evaluator  # Puedes retornar lo que necesites aquí
 
     class model_statistics:
         def __init__(self, yreal, ypred):
@@ -67,11 +74,12 @@ class process_model:
             plt.show()
 
     class list_models:
-        def __init__(self, X_train, y_train, X_val, y_val):
+        def __init__(self, X_train, y_train, X_val, y_val, df):
             self.X_train = X_train
             self.y_train = y_train
             self.X_val = X_val
             self.y_val = y_val
+            self.df = df 
             self.instance_uo, self.modelos, self.nombres, self.params = self.get_models_underoversampling()
             self.creation_models()
 
@@ -139,10 +147,10 @@ class process_model:
 
 # Uso de la clase
 # df = tu_dataframe_con_los_datos
-X = df.drop(['Diabetes_binary'], axis=1)  # Ajusta según tu conjunto de datos
-y = df['Diabetes_binary']  # La variable objetivo
+#X = df.drop(['Diabetes_binary'], axis=1)  # Ajusta según tu conjunto de datos
+#y = df['Diabetes_binary']  # La variable objetivo
 
-X_train, X_val, y_train, y_val = train_test_split(X, y, train_size=0.80, random_state=10)
+#X_train, X_val, y_train, y_val = train_test_split(X, y, train_size=0.80, random_state=10)
 
-process = process_model(X, y)
-process.list_models(X_train, y_train, X_val, y_val)
+#process = process_model(X, y)
+#process.list_models(X_train, y_train, X_val, y_val)

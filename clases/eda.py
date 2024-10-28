@@ -103,5 +103,13 @@ class Diabetes:
 
 
     def true_false_to_one_hot(self,df):
-        df_converted=df.applymap(lambda x: 1 if x is True else (0 if x is False else x))
-        return df_converted
+        #target_column = df['Diabetes_binary']
+        #df_converted=df.applymap(lambda x: 1 if x is True else (0 if x is False else x))
+        # Devuelve el DataFrame convertido junto con la columna objetivo
+        #df_converted['Diabetes_binary'] = target_column
+    # Asegurarte de que la columna 'Diabetes_binary' se mantenga
+        if 'Diabetes_binary' in df.columns:
+            df['Diabetes_binary'] = df['Diabetes_binary'].apply(lambda x: 1 if x is True else (0 if x is False else x))
+        return df
+
+        #return df_converted

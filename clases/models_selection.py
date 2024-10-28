@@ -7,6 +7,8 @@ from imblearn.over_sampling import RandomOverSampler, SMOTE
 from imblearn.combine import SMOTEENN
 from imblearn.under_sampling import TomekLinks
 from sklearn.pipeline import make_pipeline
+import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 class Modelos:
     def __init__(self, df):
@@ -109,9 +111,9 @@ class Modelos:
             ))
 
 # Uso de la clase
-# df = tu_dataframe_con_los_datos
-modelos = Modelos(df)
-modelos.logistic_regression(use_pca=False)
-modelos.linear_svc()
-modelos.grid_search_svc()
-modelos.evaluate_under_oversampling()
+#df = modelo.true_false_to_one_hot(df_pca) 
+#modelos = Modelos(df)
+#modelos.logistic_regression(use_pca=False)
+#modelos.linear_svc()
+#modelos.grid_search_svc()
+#modelos.evaluate_under_oversampling()
