@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/caro2/mlops5/mlops_basics/clases/mlruns/0/ab4fe64d128b44e78f1e7a416f774c9a/artifacts
+end_time: 1730153387846
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ab4fe64d128b44e78f1e7a416f774c9a
+run_name: Log
+run_uuid: ab4fe64d128b44e78f1e7a416f774c9a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730153387784
+status: 4
+tags: []
+user_id: caro2
