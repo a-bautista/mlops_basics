@@ -91,8 +91,6 @@ class Plots:
 
         print(final_df.head())
         return final_df
-
-
     
     def summary_statistics(self):
         print("Summary Statistics:")

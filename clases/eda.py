@@ -61,6 +61,7 @@ class Diabetes:
         # Yeo-Johnson Transformation
         pt = PowerTransformer(method='yeo-johnson')
         temp_data[['YeoJohnson_BMI', 'YeoJohnson_MentHlth', 'YeoJohnson_PhysHlth']] = pt.fit_transform(temp_data[['BMI', 'MentHlth', 'PhysHlth']])
+        return temp_data 
 
 
     def apply_transformations(self, data):
