@@ -11,6 +11,7 @@ from imblearn.over_sampling import RandomOverSampler, SMOTE
 from imblearn.combine import SMOTEENN
 from imblearn.under_sampling import TomekLinks
 from imblearn.pipeline import make_pipeline
+from imblearn.over_sampling import RandomOverSampler
 
 class process_model:
     def __init__(self):
@@ -124,10 +125,12 @@ class process_model:
         def creation_models(self):
             for inst_uo, model, name in zip(self.instance_uo, self.modelos, self.nombres):
                 resultados = []
-                
-                if isinstance(inst_uo, float):
+
+                # Si inst_uo es None o np.nan, usa 'passthrough' en el pipeline
+                if inst_uo is None or isinstance(inst_uo, float) and np.isnan(inst_uo):
                     model_pipeline = make_pipeline(model)
                 else:
+                    # Usa el transformador inst_uo en el pipeline
                     model_pipeline = make_pipeline(inst_uo, model)
 
                 metrics = ['accuracy', 'recall', 'f1']
@@ -148,10 +151,11 @@ class process_model:
                 predictions = model_pipeline.predict(self.X_val)
 
                 # Asignar los parámetros para el modelo actual
-                self.params = self.get_model_params(model)  # Siempre como un diccionario
+                self.params = self.get_model_params(model)
 
+                # Registrar los modelos
                 self.registation_models(name, model)
 
-                # Corrección aquí: pasar los tres argumentos requeridos
+                # Estadísticas del modelo
                 stats = process_model.model_statistics(self.y_val, predictions)
                 stats.mi_cm(self.y_val, predictions, name)

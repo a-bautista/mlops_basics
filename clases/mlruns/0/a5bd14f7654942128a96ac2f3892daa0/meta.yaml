@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/caro2/mlops5/mlops_basics/clases/mlruns/0/a5bd14f7654942128a96ac2f3892daa0/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a5bd14f7654942128a96ac2f3892daa0
+run_name: RandForest
+run_uuid: a5bd14f7654942128a96ac2f3892daa0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1730182909279
+status: 1
+tags: []
+user_id: caro2
