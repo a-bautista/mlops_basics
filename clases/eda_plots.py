@@ -10,6 +10,12 @@ class Plots:
     def __init__(self, data, target):
         self.data=data
         self.target = target
+    
+    def confusion_matrix(self, labels):
+        plt.figure(figsize=(6,4))
+        ax = sns.heatmap(cm, annot=labels, fmt='', cmap='Blues', cbar=False)
+        ax.set(ylabel="Real labels", xlabel="Prediction labels")
+        plt.show()
 
 
     def plot_distributions_and_pca(self, data, temp_data):

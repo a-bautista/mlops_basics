@@ -4,6 +4,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder, PowerTransformer, StandardScaler
 from sklearn.decomposition import PCA
+from sklearn.metrics import confusion_matrix,make_scorer
+
 
 class Diabetes:
     def __init__(self, filepath):
@@ -98,18 +100,28 @@ class Diabetes:
         # Variancia explicada por cada componente
         explained_variance = pca.explained_variance_ratio_
 
+        # Convertir el resultado a un DataFrame
         pca_df = pd.DataFrame(X_pca, columns=[f'PC{i+1}' for i in range(X_pca.shape[1])])
         return pca_df, explained_variance  # Retorna el DataFrame de PCA y la varianza explicada
 
 
     def true_false_to_one_hot(self,df):
-        #target_column = df['Diabetes_binary']
-        #df_converted=df.applymap(lambda x: 1 if x is True else (0 if x is False else x))
-        # Devuelve el DataFrame convertido junto con la columna objetivo
-        #df_converted['Diabetes_binary'] = target_column
-    # Asegurarte de que la columna 'Diabetes_binary' se mantenga
         if 'Diabetes_binary' in df.columns:
             df['Diabetes_binary'] = df['Diabetes_binary'].apply(lambda x: 1 if x is True else (0 if x is False else x))
         return df
 
         #return df_converted
+
+    def mi_cm(yreal, ypred):
+
+        cm = confusion_matrix(yreal, ypred)
+
+        text = ['True Negatives','False Positives','False Negatives','True Positives']
+        vf = [ '( TN )', '( FP )', '( FN )', '( TP )']
+        freq = ["{0:0.0f}".format(value) for value in cm.flatten()]
+        percent = ["{0:.1%}".format(value) for value in cm.flatten()/np.sum(cm)]
+
+        labels = [f"{v1}\n{v2}\n{v3}\n{v4}" for v1, v2, v3, v4 in zip(text,vf, freq,percent)]
+        labels = np.asarray(labels).reshape(2,2)
+        
+        return labels

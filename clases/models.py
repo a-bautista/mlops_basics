@@ -109,18 +109,18 @@ class process_model:
             # Puedes agregar más condiciones para otros modelos
             return params  # Asegúrate de que esto siempre devuelva un diccionario
 
-        def registation_models(self, name, model):
-            with mlflow.start_run(run_name=name):
-                mlflow.log_params(self.params)
-                mlflow.log_metrics({
-                    "mean_accuracy": self.mean_accuracy,
-                    "std_accuracy": self.std_accuracy,
-                    "mean_recall": self.mean_recall,
-                    "std_recall": self.std_recall,
-                    "mean_f1": self.mean_f1,
-                    "std_f1": self.std_f1
-                })
-                mlflow.sklearn.log_model(model, artifact_path="models")
+        #def registation_models(self, name, model):
+            #with mlflow.start_run(run_name=name):
+                #mlflow.log_params(self.params)
+                #mlflow.log_metrics({
+                    #"mean_accuracy": self.mean_accuracy,
+                    #"std_accuracy": self.std_accuracy,
+                    #"mean_recall": self.mean_recall,
+                    #"std_recall": self.std_recall,
+                    #"mean_f1": self.mean_f1,
+                    #"std_f1": self.std_f1
+                #})
+                #mlflow.sklearn.log_model(model, artifact_path="models")
 
         def creation_models(self):
             for inst_uo, model, name in zip(self.instance_uo, self.modelos, self.nombres):
@@ -154,7 +154,9 @@ class process_model:
                 self.params = self.get_model_params(model)
 
                 # Registrar los modelos
-                self.registation_models(name, model)
+                #self.registation_models(name, model)
+
+                ## se manda llamar a la clase de mlflow.py
 
                 # Estadísticas del modelo
                 stats = process_model.model_statistics(self.y_val, predictions)
