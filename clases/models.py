@@ -13,6 +13,11 @@ from imblearn.under_sampling import TomekLinks
 from imblearn.pipeline import make_pipeline
 from imblearn.over_sampling import RandomOverSampler
 from MLFlow import registration_models 
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, recall_score, f1_score, precision_score,make_scorer
+from sklearn.svm import LinearSVC
+
 
 class process_model:
     def __init__(self):
@@ -68,6 +73,18 @@ class process_model:
             plt.savefig(f"confusion_matrix_{name}.png")
             plt.show()
 
+
+    class model_statistics_avg_weight:
+        def __init__(self):
+            pass
+        def my_rec_weight(self,yreal,ypred):
+            recall_avg_weight=recall_score(yreal, ypred, average='weighted')
+            return recall_avg_weight
+        def my_f1_weight(self,yreal,ypred):
+            f1_avg_weight=f1_score(yreal, ypred, average='weighted')
+            return f1_avg_weight
+
+
     class list_models:
         def __init__(self, X_train, y_train, X_val, y_val):
             self.X_train = X_train
@@ -82,10 +99,16 @@ class process_model:
         def get_models_underoversampling(self):
             instance_uo, modelos, nombres = list(), list(), list()
             dict_uo = {1: RandomOverSampler(), 2: TomekLinks(), 3: SMOTE(), 4: SMOTEENN()}
-            dict_nombres = {0: 'Log', 1: 'Log_RandOver', 2: 'Log_TomekLinks', 3: 'Log_SMOTE', 4: 'Log_SMOTEENN', 5: 'RandForest'}
-            dict_params = {0: {'n_estimators': 200, 'random_state': 42}, 1: {'class_weight': 'balanced'}}
+            #dict_nombres = {0: 'Log', 1: 'Log_RandOver', 2: 'Log_TomekLinks', 3: 'Log_SMOTE', 4: 'Log_SMOTEENN', 5: 'RandForest'}
+            #02112024 se agrega modelo de SVC
+            dict_nombres = {0: 'Log', 1: 'Log_RandOver', 2: 'Log_TomekLinks', 3: 'Log_SMOTE', 4: 'Log_SMOTEENN', 5: 'RandForest',6:'Linear_SVM'}
+            #02112024 se agregan los hiperparametros de SVC
+            dict_params={0:{'n_estimators':200,'random_state':42},1:{'random_state':42, 'dual':False, 'max_iter':5000},2:{'class_weight':'balanced'}}
+            #dict_params = {0: {'n_estimators': 200, 'random_state': 42}, 1: {'class_weight': 'balanced'}}
             
-            for i in range(6):
+            #02112024 se agrega modelo de SVC
+            for i in range(7):
+            #for i in range(6):
                 if i in [0, 5]:
                     instance_uo.append(np.nan)
                 else:
@@ -96,8 +119,12 @@ class process_model:
                 elif i == 5:
                     params = dict_params.get(0)
                     modelos.append(RandomForestClassifier(**params))
-                else:
+                elif i == 6:
+                #02112024 se agrega modelo de SVC
                     params = dict_params.get(1)
+                    modelos.append(LinearSVC(**params))
+                else:
+                    params = dict_params.get(2)
                     modelos.append(LogisticRegression(**params))
                 nombres.append(dict_nombres.get(i))
             return instance_uo, modelos, nombres, params
@@ -109,12 +136,15 @@ class process_model:
                 params = {'class_weight': 'balanced'}
             elif isinstance(model, RandomForestClassifier):
                 params = {'n_estimators': 200, 'random_state': 42}
-            # Puedes agregar más condiciones para otros modelos
-            return params  # Asegúrate de que esto siempre devuelva un diccionario
+            elif isinstance(model, LinearSVC):
+                params= {'random_state':42, 'dual':False, 'max_iter':5000}
+            return params  
 
 
 
         def creation_models(self):
+            #02112024 se agrega funcion para mandar a llamar las metricas ponderadas
+            stats_avg_weight=process_model.model_statistics_avg_weight()
             for inst_uo, model, name in zip(self.instance_uo, self.modelos, self.nombres):
                 resultados = []
 
@@ -131,22 +161,32 @@ class process_model:
                 resultados.append(resultadosOU)
 
                 # Calcular estadísticas
-                self.mean_accuracy = np.mean(resultadosOU['test_accuracy'])
-                self.std_accuracy = np.std(resultadosOU['test_accuracy'])
-                self.mean_recall = np.mean(resultadosOU['test_recall'])
-                self.std_recall = np.std(resultadosOU['test_recall'])
-                self.mean_f1 = np.mean(resultadosOU['test_f1'])
-                self.std_f1 = np.std(resultadosOU['test_f1'])
-
+                self.registration.mean_accuracy = np.mean(resultadosOU['test_accuracy'])
+                self.registration.std_accuracy = np.std(resultadosOU['test_accuracy'])
+                self.registration.mean_recall = np.mean(resultadosOU['test_recall'])
+                self.registration.std_recall = np.std(resultadosOU['test_recall'])
+                self.registration.mean_f1 = np.mean(resultadosOU['test_f1'])
+                self.registration.std_f1 = np.std(resultadosOU['test_f1'])
+                
+                
                 # Entrenar y evaluar en conjunto de validación
                 model_pipeline.fit(self.X_train, self.y_train)
                 predictions = model_pipeline.predict(self.X_val)
 
                 # Asignar los parámetros para el modelo actual
-                self.params = self.get_model_params(model)
+                param = self.get_model_params(model)
+                #02112024 se agrega funcion para mandar a llamar las metricas ponderadas
+                
+                self.recall_avg_weight = stats_avg_weight.my_rec_weight(self.y_val, predictions)
+                self.f1_avg_weight = stats_avg_weight.my_f1_weight(self.y_val, predictions)
+
+                self.registration.recall_avg_weight=self.recall_avg_weight
+                self.registration.f1_avg_weight=self.f1_avg_weight
 
                 # Registrar los modelos
-                self.registration.registration_models(name, model, self.params)  # Cambiado a self.registration
+                #self.registation_models(name, model)
+                self.registration.registration_models(name,model,param)
+                ## se manda llamar a la clase de mlflow.py
 
                 # Estadísticas del modelo
                 stats = process_model.model_statistics(self.y_val, predictions)
