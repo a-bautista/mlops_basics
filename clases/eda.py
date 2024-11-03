@@ -126,7 +126,7 @@ class Diabetes:
         labels = [f"{v1}\n{v2}\n{v3}\n{v4}" for v1, v2, v3, v4 in zip(text,vf, freq,percent)]
         labels = np.asarray(labels).reshape(2,2)
         
-        return labels
+        return labels, cm
     
 
     def split_data(self, data, target_column="Diabetes_binary", test_size=0.2, random_state=42):
