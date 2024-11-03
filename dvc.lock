@@ -1,12 +1,16 @@
 schema: '2.0'
 stages:
   data_load:
-    cmd: python src/stages/data_load.py --config=params.yaml
+    cmd: python src/data_load.py --config=params.yaml
     deps:
-    - path: src/stages/data_load.py
+    - path: src/clases/eda.py
       hash: md5
-      md5: f36b3b5ee7cff080edc1b9510ba0336e
-      size: 1041
+      md5: 9ca1603de00f5147265556fccdd0c57a
+      size: 5542
+    - path: src/data_load.py
+      hash: md5
+      md5: f29891eeabf75ad3f2c4cf465a2902a6
+      size: 908
     params:
       params.yaml:
         base:
@@ -14,22 +18,23 @@ stages:
           log_level: INFO
         data:
           dataset_csv: data/raw/diabetes.csv
+          ucirepo_id: 891
     outs:
     - path: data/raw/diabetes.csv
       hash: md5
       md5: 6704502009df9ce45a3084acb4e101cd
       size: 11829915
   featurize:
-    cmd: python src/stages/featurize.py --config=params.yaml
+    cmd: python src/featurize.py --config=params.yaml
     deps:
     - path: data/raw/diabetes.csv
       hash: md5
       md5: 6704502009df9ce45a3084acb4e101cd
       size: 11829915
-    - path: src/stages/featurize.py
+    - path: src/featurize.py
       hash: md5
-      md5: 75c669c0187d2f3825bff2ba9ee17089
-      size: 3248
+      md5: e4d7e0d2f0b15eba414dfb9f46d91a51
+      size: 1514
     params:
       params.yaml:
         base:
@@ -37,25 +42,26 @@ stages:
           log_level: INFO
         data:
           dataset_csv: data/raw/diabetes.csv
+          ucirepo_id: 891
         featurize:
           features_path: data/processed/featured_diabetes.csv
           target_column: Diabetes_binary
     outs:
     - path: data/processed/featured_diabetes.csv
       hash: md5
-      md5: 930e5723ca8102d165d0bb22ff0ee42c
-      size: 32201928
+      md5: 5feae8f193ab74d16826addc47ff338f
+      size: 35436463
   data_split:
-    cmd: python src/stages/data_split.py --config=params.yaml
+    cmd: python src/data_split.py --config=params.yaml
     deps:
     - path: data/processed/featured_diabetes.csv
       hash: md5
-      md5: 930e5723ca8102d165d0bb22ff0ee42c
-      size: 32201928
-    - path: src/stages/data_split.py
+      md5: 5feae8f193ab74d16826addc47ff338f
+      size: 35436463
+    - path: src/data_split.py
       hash: md5
-      md5: 89e640c427fb2be5f17d52ac0e6b55d7
-      size: 1554
+      md5: add3b2ac57c25ba6399ad0cb882d7d3f
+      size: 1525
     params:
       params.yaml:
         base:
@@ -73,32 +79,32 @@ stages:
     outs:
     - path: data/processed/test_diabetes.csv
       hash: md5
-      md5: c953a91a691f6a8365209c6c6148575c
-      size: 25180552
+      md5: a27c264de66a50eb486b367a4e805b03
+      size: 6874256
     - path: data/processed/test_target_diabetes.csv
       hash: md5
-      md5: 53c74a37f8473ae837c0ae3e32c78395
-      size: 608849
+      md5: 13b6935bf1c53c071213335312b2443d
+      size: 152225
     - path: data/processed/train_diabetes.csv
       hash: md5
-      md5: 4299b06246b8eecdfcb7a94a27e6ee05
-      size: 6295037
+      md5: 7ebc0e1a3670ae85b4a9158f4b893836
+      size: 27497455
     - path: data/processed/train_target_diabetes.csv
       hash: md5
-      md5: af793f62b2b1b0391d220a4611378b15
-      size: 152225
+      md5: d9d7204440c27d8d373926c80a707ce7
+      size: 608849
   train:
-    cmd: python src/stages/train.py --config=params.yaml
+    cmd: python src/train.py --config=params.yaml
     deps:
     - path: data/processed/train_diabetes.csv
       hash: md5
-      md5: 4299b06246b8eecdfcb7a94a27e6ee05
-      size: 6295037
+      md5: 7ebc0e1a3670ae85b4a9158f4b893836
+      size: 27497455
     - path: data/processed/train_target_diabetes.csv
       hash: md5
-      md5: af793f62b2b1b0391d220a4611378b15
-      size: 152225
-    - path: src/stages/train.py
+      md5: d9d7204440c27d8d373926c80a707ce7
+      size: 608849
+    - path: src/train.py
       hash: md5
       md5: 9f916733e5e3eec3132bf32e5d58c72d
       size: 1106
@@ -120,24 +126,24 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: 0b6e65afa5add92c25c21390768ab6ba
-      size: 1599
+      md5: 80fed3c5acc4942d5048ceebc46f6023
+      size: 1295
   evaluate:
-    cmd: python src/stages/evaluate.py --config=params.yaml
+    cmd: python src/evaluate.py --config=params.yaml
     deps:
     - path: data/processed/test_diabetes.csv
       hash: md5
-      md5: c953a91a691f6a8365209c6c6148575c
-      size: 25180552
+      md5: a27c264de66a50eb486b367a4e805b03
+      size: 6874256
     - path: data/processed/test_target_diabetes.csv
       hash: md5
-      md5: 53c74a37f8473ae837c0ae3e32c78395
-      size: 608849
+      md5: 13b6935bf1c53c071213335312b2443d
+      size: 152225
     - path: models/model.joblib
       hash: md5
-      md5: 0b6e65afa5add92c25c21390768ab6ba
-      size: 1599
-    - path: src/stages/evaluate.py
+      md5: 80fed3c5acc4942d5048ceebc46f6023
+      size: 1295
+    - path: src/evaluate.py
       hash: md5
       md5: 1842bd2327c4947a214736fe45cf8e8f
       size: 2503
@@ -156,9 +162,9 @@ stages:
     outs:
     - path: reports/confusion_matrix_data.csv
       hash: md5
-      md5: 25360f10a08d114818e4ac9bec5cc00b
-      size: 1014738
+      md5: 167ca85c073b7b02bcdfb3eaa9b4687b
+      size: 253698
     - path: reports/metrics.json
       hash: md5
-      md5: 3df39c6a9df390fe68d52322cf48e6b7
+      md5: be77cb46fb30803156b1268ac38c49b6
       size: 32

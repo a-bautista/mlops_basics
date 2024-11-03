@@ -4,6 +4,7 @@ base:
 
 data:
   dataset_csv: 'data/raw/diabetes.csv'
+  ucirepo_id: 891
 
 featurize:
   features_path: 'data/processed/featured_diabetes.csv'

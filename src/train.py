@@ -5,6 +5,8 @@ from typing import Text
 import yaml
 from sklearn.linear_model import LogisticRegression
 
+from models import process_model
+
 def train_model(config_path: Text) -> None:
 
     with open(config_path) as conf_file:
