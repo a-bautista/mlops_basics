@@ -6,6 +6,7 @@ import yaml
 
 from clases.eda import Diabetes
 
+
 def data_split(config_path: Text) -> None:
 
     with open(config_path) as conf_file:
@@ -13,7 +14,7 @@ def data_split(config_path: Text) -> None:
 
     print('Log: Load features')
     dataset = pd.read_csv(config['featurize']['features_path'])
-    
+
     # Crea una instancia de Diabetes
     diabetes_instance = Diabetes(dataset)
 

@@ -9,6 +9,7 @@ import yaml
 
 from clases.eda import Diabetes
 
+
 def featurize(config_path: Text) -> None:
 
     with open(config_path) as conf_file:
@@ -16,7 +17,7 @@ def featurize(config_path: Text) -> None:
 
     print('Log: Load dataset')
     dataset = pd.read_csv(config['data']['dataset_csv'])
-    
+
     # Crea una instancia de Diabetes
     diabetes_instance = Diabetes(dataset)
 
@@ -30,11 +31,12 @@ def featurize(config_path: Text) -> None:
     final_df = diabetes_instance.true_false_to_one_hot(df_pca)  # Aplicar one-hot encoding
 
     # data = transformation(dataset)
-    #final_df = apply_PCA(data) 
+    # final_df = apply_PCA(data)
 
     print('Log: Save features data file')
     features_path = config['featurize']['features_path']
     final_df.to_csv(features_path, index=False)
+
 
 if __name__ == '__main__':
 

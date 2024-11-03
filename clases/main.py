@@ -1,6 +1,6 @@
 # Importar módulos y clases personalizados
 from ucimlrepo import fetch_ucirepo
-#from data_preparation import DataPreparation
+# from data_preparation import DataPreparation
 from eda import Diabetes
 from eda_plots import Plots
 import warnings

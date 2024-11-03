@@ -5,18 +5,18 @@ import pandas as pd
 import numpy as np
 from math import ceil
 
+
 class Plots:
     # 1. Summary Statistics
     def __init__(self, data, target):
-        self.data=data
+        self.data = data
         self.target = target
-    
+
     def confusion_matrix(self, labels):
-        plt.figure(figsize=(6,4))
+        plt.figure(figsize=(6, 4))
         ax = sns.heatmap(cm, annot=labels, fmt='', cmap='Blues', cbar=False)
         ax.set(ylabel="Real labels", xlabel="Prediction labels")
         plt.show()
-
 
     def plot_distributions_and_pca(self, data, temp_data):
         # Configurar la figura para múltiples subgráficas
@@ -88,7 +88,7 @@ class Plots:
         print(f"El número mínimo de componentes principales que explica más del 99% de la varianza es: {num_components}")
 
         # PCA con n_componentes seleccionados
-        pca = PCA(n_components=7) 
+        pca = PCA(n_components=7)
         X_pca = pca.fit_transform(X)
 
         # Convertir a DataFrame y unir con el original
@@ -97,11 +97,11 @@ class Plots:
 
         print(final_df.head())
         return final_df
-    
+
     def summary_statistics(self):
         print("Summary Statistics:")
         print(self.data.describe(include='all'))
-    
+
     # 2. Distribution of Numeric Variables
     def plot_numeric_distributions(self):
         numeric_columns = self.data.select_dtypes(include=['int64']).columns
@@ -124,7 +124,7 @@ class Plots:
 
         plt.tight_layout()
         plt.show()
-    
+
     # 3. Count Plots for Binary Variables against the Target
     def plot_binary_counts(self):
         binary_columns = self.data.select_dtypes(include=['bool']).columns
@@ -148,7 +148,7 @@ class Plots:
 
         plt.tight_layout()
         plt.show()
-        
+
     # 4. Box Plots for Continuous Variables by Target Variable
     def plot_boxplots(self):
         numeric_columns = self.data.select_dtypes(include=['int64']).columns
@@ -171,7 +171,7 @@ class Plots:
 
         plt.tight_layout()
         plt.show()
-    
+
     # 5. Crosstabulation for Categorical Variables against the Target
     def plot_crosstab(self):
         categorical_columns = self.data.select_dtypes(include=['category']).columns
@@ -184,7 +184,7 @@ class Plots:
             plt.ylabel(cat_col)
             plt.xlabel(self.target)
             plt.show()
-    
+
     # 6. Correlation Heatmap for Numeric Variables
     def plot_correlation_heatmap(self):
         numeric_data = self.data.select_dtypes(include=['int64'])

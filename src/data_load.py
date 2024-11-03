@@ -5,14 +5,15 @@ import yaml
 
 from clases.eda import Diabetes
 
+
 def data_load(config_path: Text) -> None:
 
     with open(config_path) as conf_file:
         config = yaml.safe_load(conf_file)
 
-    print('Log: Data load') 
+    print('Log: Data load')
     # fetch dataset
-    #cdc_diabetes_health_indicators = fetch_ucirepo(id=config['data']['ucirepo_id'])
+    # cdc_diabetes_health_indicators = fetch_ucirepo(id=config['data']['ucirepo_id'])
     cdc_diabetes_health_indicators = fetch_ucirepo(id=891)
 
     diabetes_instance = Diabetes(cdc_diabetes_health_indicators)
