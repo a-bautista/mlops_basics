@@ -4,6 +4,7 @@ from sklearn.decomposition import PCA
 import pandas as pd
 import numpy as np
 from math import ceil
+from sklearn.metrics import confusion_matrix
 
 
 class Plots:
@@ -12,7 +13,7 @@ class Plots:
         self.data = data
         self.target = target
 
-    def confusion_matrix(self, labels):
+    def confusion_matrix(self, labels, cm):
         plt.figure(figsize=(6, 4))
         ax = sns.heatmap(cm, annot=labels, fmt='', cmap='Blues', cbar=False)
         ax.set(ylabel="Real labels", xlabel="Prediction labels")

@@ -5,7 +5,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_validate, RepeatedStratifiedKFold
-from sklearn.pipeline import make_pipeline
+#from sklearn.pipeline import make_pipeline
 from imblearn.over_sampling import RandomOverSampler, SMOTE
 from imblearn.combine import SMOTEENN
 from imblearn.under_sampling import TomekLinks
