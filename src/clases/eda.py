@@ -118,18 +118,10 @@ class Diabetes:
         freq = ["{0:0.0f}".format(value) for value in cm.flatten()]
         percent = ["{0:.1%}".format(value) for value in cm.flatten() / np.sum(cm)]
 
-<<<<<<< HEAD
-        labels = [f"{v1}\n{v2}\n{v3}\n{v4}" for v1, v2, v3, v4 in zip(text,vf, freq,percent)]
-        labels = np.asarray(labels).reshape(2,2)
-        
-        return labels, cm
-    
-=======
         labels = [f"{v1}\n{v2}\n{v3}\n{v4}" for v1, v2, v3, v4 in zip(text, vf, freq, percent)]
         labels = np.asarray(labels).reshape(2, 2)
 
-        return labels,cm
->>>>>>> dev
+        return labels
 
     def split_data(self, data, target_column="Diabetes_binary", test_size=0.2, random_state=42):
         X = data.drop(target_column, axis=1)

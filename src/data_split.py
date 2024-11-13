@@ -2,7 +2,10 @@ import argparse
 import pandas as pd
 from typing import Text
 import yaml
-from sklearn.model_selection import train_test_split
+# from sklearn.model_selection import train_test_split
+
+from clases.eda import Diabetes
+
 
 def data_split(config_path: Text) -> None:
 
@@ -11,14 +14,13 @@ def data_split(config_path: Text) -> None:
 
     print('Log: Load features')
     dataset = pd.read_csv(config['featurize']['features_path'])
-    
-    # return train_test_split(df.drop(target, axis='columns'), df[target], train_size=0.80, random_state=10,stratify=df[target])
 
-    X = dataset.drop('Diabetes_binary', axis='columns')
-    y = dataset['Diabetes_binary']
+    # Crea una instancia de Diabetes
+    diabetes_instance = Diabetes(dataset)
 
     print('Log: Split features into X_train, X_test, y_train, y_test')
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=config['data_split']['test_size'], random_state=config['base']['random_state'])
+    X_train, X_test, y_train, y_test = diabetes_instance.split_data(dataset)
+    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=config['data_split']['test_size'], random_state=config['base']['random_state'])
 
     print('Log: Save train and test files')
     train_csv_path = config['data_split']['trainset_path']

@@ -81,5 +81,3 @@ model_evaluator = process.list_models(X_train, y_train, X_val, y_val)
 
 # Paso 8: Registrar el modelo en MLFlow
 model_registration = registration_models()
-
-

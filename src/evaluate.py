@@ -3,9 +3,9 @@ import joblib
 import json
 import pandas as pd
 from pathlib import Path
-from sklearn.datasets import load_iris
+# from sklearn.datasets import load_iris
 from sklearn.metrics import confusion_matrix, f1_score, classification_report
-from typing import Text, Dict
+from typing import Text
 import yaml
 
 
@@ -13,6 +13,7 @@ def write_confusion_matrix_data(y_true, predicted, filename):
     assert len(predicted) == len(y_true)
     cf = pd.DataFrame(list(zip(y_true, predicted)), columns=["y_true", "predicted"])
     cf.to_csv(filename, index=False)
+
 
 def evaluate_model(config_path: Text) -> None:
 
@@ -31,7 +32,7 @@ def evaluate_model(config_path: Text) -> None:
     prediction = model.predict(X_test)
     f1 = f1_score(y_true=y_test, y_pred=prediction, average='macro')
 
-    labels = load_iris(as_frame=True).target_names.tolist()
+    # labels = load_iris(as_frame=True).target_names.tolist()
 
     cm = confusion_matrix(prediction, y_test)
     report = {
